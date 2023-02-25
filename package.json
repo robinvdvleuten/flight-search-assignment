@@ -3,11 +3,13 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
-    "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "start": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
+    "clsx": "^1.2.1",
+    "modern-normalize": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

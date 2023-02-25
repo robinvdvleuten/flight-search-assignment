@@ -1,0 +1,20 @@
+.tableColumn {
+  padding: 0.5rem 0;
+  text-align: left;
+}
+
+.tableColumn[data-key="flightIdentifier"] {
+  font-weight: 400;
+}
+
+.tableColumn[data-key="airport"] em {
+  background: var(--afternoon-blue);
+  border-radius: 0.125rem;
+  color: var(--white);
+  font-style: normal;
+  padding: 0 0.125rem;
+}
+
+.tableColumn[data-key="url"] {
+  text-align: right;
+}

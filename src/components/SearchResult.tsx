@@ -1,5 +1,8 @@
 import React from "react";
 import { FlightResult } from "../hooks/flights";
+import styles from "./SearchResult.module.css";
+
+console.log(styles);
 
 interface SearchResultProps extends React.ComponentPropsWithoutRef<"div"> {
   result: FlightResult;
@@ -8,11 +11,23 @@ interface SearchResultProps extends React.ComponentPropsWithoutRef<"div"> {
 const SearchResult: React.FC<SearchResultProps> = ({ result, ...rest }) => {
   return (
     <tr {...rest}>
-      <th scope="row">{result.flightIdentifier}</th>
-      <td>{result.flightNumber}</td>
-      <td>{result.highlight}</td>
-      <td>{result.expectedTime}</td>
-      <td>
+      <th
+        className={styles.tableColumn}
+        data-key="flightIdentifier"
+        scope="row"
+      >
+        {result.flightIdentifier}
+      </th>
+      <td className={styles.tableColumn} data-key="flightNumber">
+        {result.flightNumber}
+      </td>
+      <td className={styles.tableColumn} data-key="airport">
+        {result.highlight}
+      </td>
+      <td className={styles.tableColumn} data-key="expectedTime">
+        {result.expectedTime}
+      </td>
+      <td className={styles.tableColumn} data-key="url">
         <a href={result.url}>Details &rarr;</a>
       </td>
     </tr>

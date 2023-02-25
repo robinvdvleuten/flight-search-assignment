@@ -1,10 +1,13 @@
 import React from "react";
+import cx from "clsx";
+import styles from "./SearchInput.module.css";
 
 interface SearchInputProps extends React.ComponentPropsWithoutRef<"div"> {
   onSearch: (query: string) => void;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
+  className,
   onSearch,
   ...rest
 }) => {
@@ -13,12 +16,14 @@ const SearchInput: React.FC<SearchInputProps> = ({
   }
 
   return (
-    <div {...rest}>
+    <div className={cx(styles.searchInput, className)} {...rest}>
       <label>
-        <span>Search</span>
+        <span className="sr-only">Search</span>
         <input
+          className={styles.input}
           type="text"
           name="q"
+          placeholder="Search flight"
           onChange={handleQueryChange}
         />
       </label>

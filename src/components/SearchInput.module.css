@@ -1,0 +1,22 @@
+.searchInput {
+  /* ... */
+}
+
+.input {
+  background: var(--grey-few);
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: var(--grey-few) 0px 0px 0px 2px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+input::placeholder {
+  color: var(--grey-overcast);
+  opacity: 1;
+}
+
+.input:focus {
+  box-shadow: var(--afternoon-blue) 0px 0px 0px 2px;
+  outline: none;
+}

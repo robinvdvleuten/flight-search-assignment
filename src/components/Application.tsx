@@ -2,6 +2,7 @@ import React from "react";
 import { useFlights } from "../hooks/flights";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
+import styles from "./Application.module.css";
 
 const Application: React.FC = () => {
   const { results, searchFlights } = useFlights();
@@ -11,9 +12,12 @@ const Application: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={styles.application}>
+      <h1>
+        Schiphol Flight Search
+      </h1>
       <SearchInput onSearch={handleSearchInput} />
-      <SearchResults results={results} />
+      <SearchResults className={styles.searchResults} results={results} />
     </div>
   );
 };

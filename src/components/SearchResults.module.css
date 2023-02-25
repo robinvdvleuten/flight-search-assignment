@@ -1,0 +1,44 @@
+.table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.tableHeader {
+  border-bottom: 1px solid var(--grey-overcast);
+  color: var(--grey-overcast);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.tableHeader[data-key="url"] {
+  width: 5rem;
+}
+
+.sortAsc,
+.sortDesc {
+  display: none;
+}
+
+.searchResults[data-direction] .tableHeader:hover,
+.searchResults[data-direction] .tableHeader[data-current] {
+  color: var(--grey-storm);
+  cursor: pointer;
+}
+
+.searchResults[data-direction] .tableHeader:not([data-current]):hover .sortAsc,
+.searchResults[data-direction] .tableHeader:not([data-current]):hover .sortDesc {
+  display: inline-block;
+}
+
+.searchResults[data-direction="asc"] .tableHeader[data-current] .sortAsc,
+.searchResults[data-direction="desc"] .tableHeader[data-current] .sortDesc {
+  display: inline-block;
+}
+
+.tableColumn {
+  padding: 0.5rem 0;
+}

@@ -1,32 +1,40 @@
 import React from "react";
+import cx from "clsx";
 import { FlightResult } from "../hooks/flights";
 import SearchResult from "./SearchResult";
-
-enum SortDirection {
-  ASC = 1,
-  DESC = -1,
-}
+import styles from "./SearchResults.module.css";
 
 type FlightResultKey = keyof FlightResult;
 
 interface SortableTableHeaderProps
   extends React.ComponentPropsWithoutRef<"th"> {
   sortKey: FlightResultKey;
+  currentSortKey: FlightResultKey;
   onSort: (key: FlightResultKey) => void;
 }
 
 const SortableTableHeader: React.FC<SortableTableHeaderProps> = ({
   children,
   sortKey,
+  currentSortKey,
   onSort,
   ...rest
 }) => (
-  <th onClick={() => onSort(sortKey)} {...rest}>
-    {children}
-    <span>&uarr;</span>
-    <span>&darr;</span>
+  <th
+    onClick={() => onSort(sortKey)}
+    data-key={sortKey}
+    data-current={sortKey === currentSortKey ? "true" : undefined}
+    {...rest}
+  >
+    {children} <span className={styles.sortAsc}>&darr;</span>
+    <span className={styles.sortDesc}>&uarr;</span>
   </th>
 );
+
+enum SortDirection {
+  ASC = 1,
+  DESC = -1,
+}
 
 interface SearchResultsProps
   extends Omit<React.ComponentPropsWithoutRef<"table">, "results"> {
@@ -36,6 +44,7 @@ interface SearchResultsProps
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({
+  className,
   results,
   initialSortKey = "sortableTime",
   initialSortDirection = SortDirection.ASC,
@@ -65,7 +74,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   React.useEffect(() => {
     setSortedResults((sortedResults) =>
       sortedResults
-        ? [...sortedResults].sort((a, b) => {
+        ? sortedResults.slice(0).sort((a, b) => {
             let aVal = a[sortedKey],
               bVal = b[sortedKey];
 
@@ -80,40 +89,58 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   }, [sortedKey, sortedDirection]);
 
   return (
-    <div {...rest}>
-      <table>
-        <thead>
+    <div
+      className={cx(styles.searchResults, className)}
+      data-direction={
+        sortedResults
+          ? sortedDirection === SortDirection.ASC
+            ? "asc"
+            : "desc"
+          : undefined
+      }
+      {...rest}
+    >
+      <table className={styles.table}>
+        <thead className={styles.tableHead}>
           <tr>
             <SortableTableHeader
+              className={styles.tableHeader}
               scope="col"
               sortKey="flightIdentifier"
+              currentSortKey={sortedKey}
               onSort={handleResultsSort}
             >
               Flight Identifier
             </SortableTableHeader>
             <SortableTableHeader
+              className={styles.tableHeader}
               scope="col"
               sortKey="flightNumber"
+              currentSortKey={sortedKey}
               onSort={handleResultsSort}
             >
               Flight Number
             </SortableTableHeader>
             <SortableTableHeader
+              className={styles.tableHeader}
               scope="col"
               sortKey="airport"
+              currentSortKey={sortedKey}
               onSort={handleResultsSort}
             >
               Airport
             </SortableTableHeader>
             <SortableTableHeader
+              className={styles.tableHeader}
               scope="col"
               sortKey="sortableTime"
+              currentSortKey={sortedKey}
               onSort={handleResultsSort}
             >
               Expected Time
             </SortableTableHeader>
-            <th scope="col">
-              <span className="sr-only">Actions</span>
+            <th className={styles.tableHeader} scope="col" data-key="url">
+              <span className="sr-only">URL</span>
             </th>
           </tr>
         </thead>
@@ -125,12 +152,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({
               ))
             ) : (
               <tr>
-                <td colSpan={5}>No flights found for given destination.</td>
+                <td className={styles.tableColumn} colSpan={5}>
+                  No flights found for given destination.
+                </td>
               </tr>
             )
           ) : (
             <tr>
-              <td colSpan={5}>Start searching by typing your destination.</td>
+              <td className={styles.tableColumn} colSpan={5}>
+                Start searching by typing your destination.
+              </td>
             </tr>
           )}
         </tbody>
