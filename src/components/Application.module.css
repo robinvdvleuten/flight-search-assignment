@@ -3,6 +3,11 @@
   max-width: 45rem;
 }
 
+.error {
+  color: var(--dark-red);
+  margin-top: 1rem;
+}
+
 .searchResults {
   margin-top: 2rem;
 }

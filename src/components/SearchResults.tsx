@@ -1,5 +1,5 @@
-import React from "react";
-import cx from "clsx";
+import * as React from "react";
+import { clsx } from "clsx";
 import { FlightResult } from "../hooks/flights";
 import SearchResult from "./SearchResult";
 import styles from "./SearchResults.module.css";
@@ -90,7 +90,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   return (
     <div
-      className={cx(styles.searchResults, className)}
+      className={clsx(styles.searchResults, className)}
       data-direction={
         sortedResults
           ? sortedDirection === SortDirection.ASC

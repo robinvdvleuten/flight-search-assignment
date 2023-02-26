@@ -1,8 +1,6 @@
-import React from "react";
+import * as React from "react";
 import { FlightResult } from "../hooks/flights";
 import styles from "./SearchResult.module.css";
-
-console.log(styles);
 
 interface SearchResultProps extends React.ComponentPropsWithoutRef<"div"> {
   result: FlightResult;

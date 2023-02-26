@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 export interface Flight {
   flightIdentifier: string;
@@ -14,6 +14,14 @@ export interface FlightResult extends Flight {
   sortableTime: number;
 }
 
+interface FlightResponse {
+  flights: Flight[];
+}
+
+interface ErrorResponse {
+  error: string;
+}
+
 interface UseFlightsOptions {
   minChars?: number;
   maxChars?: number;
@@ -22,6 +30,7 @@ interface UseFlightsOptions {
 
 export function useFlights(opts: UseFlightsOptions = {}) {
   const [results, setResults] = React.useState<FlightResult[] | null>(null);
+  const [error, setError] = React.useState<Error | null>(null);
   const [isSearching, setIsSearching] = React.useState<boolean>(false);
 
   async function searchFlights(query: string) {
@@ -36,14 +45,25 @@ export function useFlights(opts: UseFlightsOptions = {}) {
 
     setIsSearching(true);
 
-    let response = await fetch(`/flights.json?q=${query}`);
-    let results: { flights: Flight[] } = await response.json();
+    let response = await window.fetch(`/flights.json?q=${query}`);
+
+    if (!response.ok) {
+      let { error }: ErrorResponse = await response.json();
+
+      setResults(null);
+      setError(new Error(error));
+      setIsSearching(false);
+      return;
+    }
+
+    let results: FlightResponse = await response.json();
 
     setResults(matchFlights(results.flights, query, opts.maxResults || 5));
+    setError(null);
     setIsSearching(false);
   }
 
-  return { results, isSearching, searchFlights } as const;
+  return { results, error, isSearching, searchFlights } as const;
 }
 
 function matchFlights(
