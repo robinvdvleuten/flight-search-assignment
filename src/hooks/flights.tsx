@@ -66,6 +66,12 @@ export function useFlights(opts: UseFlightsOptions = {}) {
   return { results, error, isSearching, searchFlights } as const;
 }
 
+/**
+ * Match flights against a query and return the results.
+ *
+ * It will find flights with a matching airport name (both lower and uppercase).
+ * After that, it will sort the results by expected time and return a maximum of results.
+ */
 function matchFlights(
   flights: Flight[],
   query: string,
@@ -82,6 +88,11 @@ function matchFlights(
     .slice(0, maxResults);
 }
 
+/**
+ * Highlight a match in a string.
+ *
+ * It will return a JSX element with the matched part wrapped in an <em> tag.
+ */
 function highlightMatch(text: string, query: string): JSX.Element {
   let index = text.toLowerCase().indexOf(query.toLowerCase());
 
@@ -94,6 +105,9 @@ function highlightMatch(text: string, query: string): JSX.Element {
   );
 }
 
+/**
+ * Convert a given time string (HH:mm) to seconds.
+ */
 function timeToSeconds(time: string): number {
   let [hours, minutes] = time.split(":");
   return parseInt(hours) * 3600 + parseInt(minutes) * 60;
