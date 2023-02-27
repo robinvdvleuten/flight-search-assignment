@@ -4,6 +4,7 @@
   "scripts": {
     "build": "vite build",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
+    "lint": "tsc",
     "start": "vite",
     "test": "cypress run",
     "preview": "vite preview"
